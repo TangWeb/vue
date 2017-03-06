@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="vue.js"></script>
+
+<div id="app">
+    <p title="hell-word">{{ message }}</p>
+</div>
+
+<div id="app1">
+    <!-- v表示的是vue.js中的绑定指令，表示将message的内容绑定到title中 -->
+    <span v-bind:title="message">
+        请把鼠标放上去看有什么变化吧！
+    </span>
+</div>
+
+<div id="app2">
+    <!-- 绑定判断语句，flag为true的时候，"正确"显示出来  -->
+    <span v-if="flag">
+        正确
+    </span>
+</div>
+
+<div id="app3">
+    <li v-for="li in lis">
+        {{ li.name }}
+    </li>
+</div>
+
+<div id="app4">
+    <p>{{ message }}</p>
+    <button v-on:click="press">press me</button>
+</div>
+
+<div id="app5">
+    <p>{{ message }}</p>
+    <input v-model="message">
+</div>
+
+<!-- 大动作 -->
+<div id="app6">
+    <ol>
+        <todo-item v-for="item in List" v-bind:todo="item"></todo-item>
+    </ol>
+</div>
+
+<script>
+    new Vue({
+        el : "#app",
+        data : {
+            message : "siyuanXiao is big egg !" //绑定DOM文本到数据中
+        }
+    });
+
+    var app1 = new Vue({
+        el : "#app1",
+        data : {
+            message : '现在的时间是：'+ new Date()
+        }
+    });
+
+    var app2 = new Vue({
+        el : "#app2",
+        data : {
+            flag : true //绑定DOM结构到数据中
+        }
+    });
+
+    var app3 = new Vue({
+        el : "#app3",
+        data : {
+            lis : [
+                {
+                    name : "tang"
+                },
+                {
+                    name : "wang"
+                },
+                {
+                  text: "xiao"
+                }
+            ]
+        }
+    });
+
+    var app4 = new Vue({
+        el : "#app4",
+        data : {
+            message : "Hello vue.js"
+        },
+        methods : {
+            press: function () { //触发click点击事件
+                this.message = this.message.split('').reverse().join('') //reverse()翻转函数
+            }
+        }
+    });
+
+    var app5 = new Vue({
+        el : "#app5",
+        data : {
+            message : "你好，vue.js !"
+        }
+    });
+
+    Vue.component('todo-item', {
+        props : ['todo'],
+        template : '<li>{{ todo.text }}</li>'
+    });
+
+    var app6 = new Vue({
+        el : "#app6",
+        data : {
+            List : [
+                { text: 'tang'},
+                { text: 'wang'}
+            ]
+        }
+    })
+</script>
+</body>
+</html>
