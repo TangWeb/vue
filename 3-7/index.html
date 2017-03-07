@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="demo"></div>
+<script>
+//    var vm = new Vue({
+//        //选项
+//    });
+//
+//    var myComponent = new Vue.extend({
+//        //Vue实例的扩展
+//    });
+
+//    var my_component = new myComponent(); //所有的vue.js都是被扩展的Vue实例
+
+    var data = { a : 1};
+    var vu = new Vue({
+        el : "#demo",
+        data : data
+    });
+
+    data.a = 3;
+    //console.log(vu.a);
+    console.log(vu.$data === data);
+    console.log(vu.$el === document.getElementById('demo'));
+
+    vu.$watch('a', function (newVal , oldVal) {  //事件发现这里的newVal和oldVal可以不填, newVal表示vu.a变幻后的值，oldVal表示vu.a变幻前的值，注意跟原先的data.a有区别
+        console.log('vu.a发生了变化'+ oldVal); //在控制台填入vn.a = 4,则会输出4 ，4
+    });
+
+    var vm1 = new Vue({
+        el : "#demo",
+        data : { a : 1},
+        created : function () {  //这里的created方法是特定的方法，表示在Vue实例话后进行的操作
+            console.log('data.a is: '+ this.a); //这里的this是Vue的实例
+        },
+        destroyed : function () {
+            console.log("vm1已经销毁"); //当使用vm1.$destroy()进行销毁时，调用destroyed函数
+        }
+//        updated : function () {
+//            console.log('这里是跟新后的data.a is: '+ data.a);
+//        }
+    })
+
+</script>
+</body>
+</html>
