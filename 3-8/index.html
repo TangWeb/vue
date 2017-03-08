@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<span id="demo" v-once>This is never changer {{ message }}</span>
+<!-- v-once怎么用？什么意思，我在console台中改变了vm.message,为什么message会改变-->
+
+<div id="demo1" v-html="rawHtml"></div>
+
+<button id="demo2" v-bind:disabled="someDynamicCondition">{{ msg }}</button>
+<!-- v-表示指令 -->
+
+<div v-bind:id="'list-'+id"></div>
+<!-- 这边看不懂什么意思-->
+
+<a v-on:click="doSomething">
+    <!-- 这里的表示绑定一个点击事件，绑定一个名为doSomething的方法-->
+
+    <!--过滤器-->
+    {{ message | capitalize}}
+    <div v-bind:id="message | capitalize"></div>
+    <!-- 接受参数的过滤器 -->
+    {{ message | capitalize(filterA, filterB)}}
+<script>
+    var vm = new Vue({
+        el : "#demo",
+        data : {
+            message : 'ss'
+        }
+    });
+
+    var vm2 = new Vue({
+        el : "#demo2",
+        data : {
+            someDynamicCondition : 'ss',
+            msg : 'hello'
+        }
+    })
+
+</script>
+</body>
+</html>
