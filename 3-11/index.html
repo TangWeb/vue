@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div class="static" v-bind:class="{ active:isActive, 'text-danger':hasError}"></div>
+<!--这里我奇怪的是，之前不是用{{}}来表示数据绑定的嘛，怎么现在又变成了但括号-->
+<!--在console的控制台中打vm.hasError = true就会看见class多一个值"text-danger"-->
+
+<div class="demo" v-bind:class="object"></div>
+<!--将class的数据对象用对象object绑定起来，object对象中绑定的数据有active和'text-danger'两个属性-->
+
+<div class="demo1" v-bind:class = "objectClass"></div>
+<!--使用计算属性-->
+
+<div class="demo2" v-bind:class ="[activeClass, errorClass]"></div>
+
+<div class="demo3" v-bind:class="[isActive ? activeClass : '', errorClass]"></div>
+<!--三元表达式，表示isActive为真的时候显示activeClass，否则只显示errorClass-->
+
+<div class="demo4" v-bind:class="[{active : isActive}, errorClass]"></div>
+<!--这里的数组中{active:isActive}表示的跟第一个例子中的意思，当isActive为true的时候，会显示active这个class，否则不显示active这个class。-->
+
+<div class="demo5">
+    <my-component class="aa, bb, cc"></my-component>
+</div>
+
+<div class="demo6" v-bind:style="objectStyle">ss</div>
+<!--将样式放在内联样式数组中-->
+</body>
+<script>
+
+    var vm = new Vue({
+        el: ".static",
+        data :{
+            isActive : true,
+            hasError : false
+        }
+    });
+
+    var vm1 = new Vue({
+        el : '.demo',
+        data : {
+            object :{
+                isActive : true,
+                'text-danger' : false //为什么这里两个object的参数格式不一样，这里用了单引号，上面的没有用单引号；试了上面用了'active'效果是一样的
+            }
+        }
+    });
+
+    var vm2 = new Vue({
+        el : ".demo1",
+        data : {
+            isActive : true,
+            error : null
+        },
+        computed : {
+            objectClass : function () {
+                return {
+                    active : this.isActive && !this.error,
+                    'text-danger' : this.error && this.error.type === 'fatal' //什么时候会出现'text-danger'?
+                    // 我在console中输入vm2.error = 'aa'; vm2.error.type = 'fatal',并没有出现class:'text-danger';
+                    // 这里的vm2.error.type是什么意思，我输入在控制台中的时候报错。
+                }
+            }
+        }
+    });
+
+    var vm3 = new Vue({
+        el: ".demo2",
+        data : {
+            activeClass : "active",
+            errorClass : "error"
+        }
+    });
+
+    var vm4 = new Vue({
+        el : ".demo4",
+        data : {
+            isActive : false, //当isActive是真的时候有active这个class
+            activeClass : 'aa',
+            errorClass : 'hello'
+        }
+    });
+
+    Vue.component('my-component',{
+        template : '<P class="dd ee">这个是文字</P>'
+
+    });
+
+    var vm5 = new Vue({
+        el : ".demo6",
+        data : {
+            objectStyle :{
+                color : "red",
+                "font-size" : "100px",
+            }
+        }
+    });
+
+</script>
+</html>
