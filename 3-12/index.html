@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div v-if="ok">Yes</div>
+<div v-else>No</div>
+
+<template v-if="ok">
+    <h1>标题</h1>
+    <p>段落1</p>
+    <p>段落2</p>
+</template>
+
+<div id="demo">
+    <template  v-if="data === 'B'">
+        sorry
+    </template>
+    <template v-else >
+        not sorry
+        <!--为什么这里的not sorry会一直输出来 只用使用template才会有争取的逻辑-->
+    </template>
+</div>
+
+
+<div id="demo1">
+    <template  v-if="type === 'A' ">
+        A
+    </template>
+    <template v-else-if="type === 'B' ">
+        B
+    </template>
+    <template v-else >
+        AB
+    </template>
+</div>
+
+
+<div id="key-demo">
+    <template v-if="loginType === 'username'">
+        <label for="">UserName</label>
+        <input type="text" placeholder="Enter you username" key="username-input">
+    </template>
+    <template v-else>
+        <label for="">email</label>
+        <input type="text" placeholder="Enter you email" key="email-input">
+    </template>
+    <button v-on:click="toggleLoginType">press me</button>
+    <!--为button添加toggleLoginType点击方法-->
+</div>
+
+<div id="demo2" v-show="ok">
+    show
+</div>
+<!--如果是v-show则表示style中的display属性-->
+
+
+</body>
+<script>
+    var vm = new Vue({
+        el : '#demo',
+        data: {
+            data : 'B'
+        }
+    });
+
+    var vm1 = new Vue({
+        el : "#demo1",
+        data : {
+            type : 'A'
+        }
+    });
+
+    new Vue({
+        el : "#key-demo",
+        data : {
+            loginType : 'username'
+        },
+        methods : {
+            toggleLoginType : function () {   // 这里的toggleLoginType在哪里定义的？
+                return this.loginType = this.loginType === 'username' ? 'email' : 'username'
+            }
+        }
+
+    });
+
+    new Vue({
+        el : "#demo2",
+        data : {
+            ok : false
+        }
+    })
+
+</script>
+</html>
