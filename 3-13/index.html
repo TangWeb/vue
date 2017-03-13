@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<ul id="demo">
+    <!--这里的item是items数组迭代的一个别名，items是数据源，其中in可以用of表示-->
+    <li v-for="item in items">
+        {{ item.message }}
+    </li>
+</ul>
+
+<ul id="demo1">
+    <!--这里的index表示数组的key值-->
+    <li v-for="(item, index) in items">
+        {{ parentMessage }}-{{ index }}-{{ item.message }}
+    </li>
+</ul>
+
+<ul id="demo2">
+    <template v-for="item in items">
+        <li>{{ item.msg }}</li>
+        <li>message two</li>
+    </template>
+</ul>
+
+<ul id="demo3">
+    <!--第二个参数表示的是对象的属性，第三个参数表示索引值-->
+    <li v-for="(object, key, index) in items">
+        {{ index }}-{{ object }}-{{ key }}
+    </li>
+</ul>
+
+<div id="demo4">
+    <span v-for=" n in 10">{{ n }}</span>
+</div>
+
+<div id="demo5">
+    <input
+            placeholder="Add a todo"
+            v-model="newTodoText"
+            v-on:keyup.enter = "addNewTodo"
+    >
+    <ul>
+        <li
+                is="todo-list"
+                v-for="(todo,index) in todos"
+                v-bind:title="todo"
+                v-on:remove="todos.splice(index, 1)"
+        ></li>
+    </ul>
+</div>
+
+<div id="demo6">
+    <li v-for="n in even(numbers)">{{ n }}</li>
+</div>
+
+<script>
+    var vm6 = new Vue({
+        el : "#demo6",
+        data: {
+            numbers: [ 1, 2, 3, 4, 5 ]
+        },
+        methods: {
+            even: function (numbers) {
+                return numbers.filter(function (number) {
+                    return number % 2 === 0 //返回是2的整数的元素
+                })
+            }
+        }
+    });
+
+    Vue.component('todo-list',{
+        template:'\
+    <li>\
+      {{ title }}\
+      <button v-on:click="$emit(\'remove\')">X</button>\
+    </li>\
+  ',
+        props: ['title']
+    });
+    var vm5 = new Vue({
+        el : "#demo5",
+        data : {
+            newTodoText : '',
+            todos : [
+                'Do the dishes',
+                'Take out the trash',
+                'Mow the lawn'
+            ]
+            //  换成{
+            //      one : 'aa',
+            //      two : 'bb',
+            //      three : 'cc'
+            //      }
+            //      就会报错，但是html是一样的，为什么呢？
+            //
+            //
+            //
+        },
+        methods : {
+            addNewTodo :function () {
+                this.todos.push(this.newTodoText)
+                this.newTodoText = ''
+            }
+        }
+
+    });
+    var vm = new Vue({
+        el : "#demo",
+        data : {
+            items : [
+                {message : 'Tang'},
+                {message : 'ju'}
+            ]
+        }
+    });
+    var vm1 = new Vue({
+        el : "#demo1",
+        data : {
+            parentMessage : 'Parent',
+            items : [
+                { message : 'Tang'},
+                { message : 'ju'}
+            ]
+        }
+    });
+
+    var vm2 = new Vue({
+        el : "#demo2",
+        data : {
+            items : [
+                { msg : 'ju' }
+            ]
+        }
+    });
+
+    var vm3 = new Vue({  //对比vm例子看，这边是对象的属性来迭代
+        el : "#demo3",
+        data : {
+            items : {
+                FirstName : 'tang', //这里的FirstName和LastName表示的对象的对应属性
+                LastName : 'ju'
+            }
+        }
+    });
+
+    var vm4 = new Vue({
+        el : "#demo4"
+    })
+</script>
+</body>
+</html>
