@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div class="my_component">
+    <myname></myname>
+</div>
+<script>
+    let myComponent = {
+        template : '<div class="child">我是字孩子，名字叫小唐！</div>'
+    };
+    var myComponents = new Vue({
+        el : ".my_component",
+        components : {'myname':myComponent}  //这里的myname对应html中的<myname>
+    });
+</script>
+</body>
+</html>
