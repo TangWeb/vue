@@ -7,19 +7,34 @@
 </head>
 <body>
 <div class="my_component">
-    <myname></myname>
+    <input v-model="message">
+    <myname v-bind:message="message"></myname>
 </div>
 <script>
-    let myComponent = {
-        template : '<div class="child">我是字孩子，名字叫{{ name }}！</div>',
-        data : function () {    //当是组件的时候data返回值必须是一个方法，return属性值
-            return {
-                name : 'tangju'
+    var myComponent = {
+        props : {
+            message:{
+                type : String,
+                required: true
+            }
+        },
+        template : '<div class="child">我是字孩子，名字叫{{ message }}！</div>',
+//        data : function () {    //当是组件的时候data返回值必须是一个方法，return属性值
+//            return {
+//                name : this.message
+//            }
+//        }
+        computed: {
+            name: function () {
+                return this.message.trim().toLowerCase() //name使用组件中传过来的message作为参数
             }
         }
     };
     var myComponents = new Vue({
         el : ".my_component",
+        data : {
+            message : 'saf'
+        },
         components : {'myname':myComponent}  //这里的myname对应html中的<myname>
     });
 </script>
